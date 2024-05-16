@@ -1,0 +1,77 @@
+/* Formulário */
+form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+    max-width: 500px;
+    width: 100%;    
+}
+
+/* Título do formulário */
+h2 {
+    text-align: center;
+    color: #333; /* Cor mais escura para o título */
+    margin-bottom: 20px; /* Espaço adicional abaixo do título */
+}
+
+/* Estilo dos rótulos */
+label {
+    display: block;
+    margin-bottom: 10px; /* Reduzido o espaçamento abaixo dos rótulos */
+    color: #555; /* Cor mais suave para os rótulos */
+}
+
+/* Estilo dos campos de entrada */
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px; /* Espaçamento maior abaixo dos campos de entrada */
+    border: 1px solid #ddd; /* Cor da borda mais clara */
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s; /* Transição suave para a cor da borda */
+}
+
+/* Estilo dos campos de entrada ao receber foco */
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #007bff; /* Cor da borda ao receber foco */
+}
+
+/* Estilo dos campos select */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 10px);
+    background-position-y: center;
+}
+
+/* Estilo do campo de texto grande */
+textarea {
+    resize: vertical;
+}
+
+/* Estilo do botão de envio */
+#enviar{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 24px; /* Aumentado o preenchimento para o botão */
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+/* Estilo do botão de envio ao passar o mouse */
+#enviar:hover {
+    background-color: #0056b3;
+}

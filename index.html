@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Controle Financeiro</title>
+</head>
+<body>
+    <div class="head">
+        <div class="menu">
+            <button class="btmenu" onclick="window.location.href='index.html'">Listar</button>
+            <button class="btmenu" onclick="window.location.href='Inserir/inserir.html'">Inserir</button>
+            <button class="btmenu" onclick="window.location.href='Sobre/sobre.html'">Sobre</button>
+            <button class="btmenu" onclick="window.location.href='Ajuda/ajuda.html'">Ajuda</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="options">
+            <div>
+                <button id="listarTodos">Listar Todos</button>
+                <button id="listarDebito">Listar Débito</button>
+                <button id="listarCredito">Listar Crédito</button><br>
+                <button id="listarPendentes">Listar Pendentes</button>
+                <button id="listarAndamento">Listar em Andamento</button>
+                <button id="listarConcluidos">Listar Concluídos</button>
+            </div>
+
+            <div class="listagemData" style="background-color: rgb(226, 223, 223);"><br>
+                <label>LISTAR POR DATA</label><br><br>
+                <label for="">Data Inicial: </label><input type="date">
+                <label for="">Data Final : </label><input type="date"><br><br>
+            </div>            
+
+        </div>        
+    </div>
+    <fieldset class="content"><legend>LISTAGEM</legend>
+        <!-- Conteúdo listado será inserido aqui dinamicamente -->
+        <div class="item">
+            <button class="btVisualizar">
+                <img class="lupa" src="./imagens/search.png" alt="">
+                Visualizar
+            </button>
+            <label for="" class="informacao"><strong>Emprestimo consignado 1 - para:</strong> Manuel Gomes da Silva Junior - <strong>Data-Vencimento:</strong> 20/05/2024</label>
+            <button class="btExcluir">
+                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
+                
+            </button>
+        </div>
+
+
+        <div class="item">
+            <button class="btVisualizar">
+                <img class="lupa" src="./imagens/search.png" alt="">
+                Visualizar
+            </button>
+            <label for="" class="informacao"><strong>Emprestimo consignado 1 - para:</strong> Manuel Gomes da Silva Junior - <strong>Data-Vencimento:</strong> 20/05/2024</label>
+            <button class="btExcluir">
+                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
+                
+            </button>
+        </div>
+
+
+        <div class="item">
+            <button class="btVisualizar">
+                <img class="lupa" src="./imagens/search.png" alt="">
+                Visualizar
+            </button>
+            <label for="" class="informacao"><strong>Emprestimo consignado 1 - para:</strong> Manuel Gomes da Silva Junior - <strong>Data-Vencimento:</strong> 20/05/2024</label>
+            <button class="btExcluir">
+                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
+                
+            </button>
+        </div>
+
+
+
+        <div class="item">
+            <button class="btVisualizar">
+                <img class="lupa" src="./imagens/search.png" alt="">
+                Visualizar
+            </button>
+            <label for="" class="informacao"><strong>Emprestimo consignado 1 - para:</strong> Manuel Gomes da Silva Junior - <strong>Data-Vencimento:</strong> 20/05/2024</label>
+            <button class="btExcluir">
+                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
+                
+            </button>
+        </div>
+
+
+        
+    </fieldset>
+</body>
+</html>

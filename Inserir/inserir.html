@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="inserir.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+        
+    <title>Controle Financeiro - Inserir</title>
+</head>
+<body>
+    <div class="head">
+        <div class="menu">
+            <button class="btmenu" onclick="window.location.href='../index.html'">Listar</button>
+            <button class="btmenu" onclick="window.location.href='Inserir/inserir.html'">Inserir</button>
+            <button class="btmenu" onclick="window.location.href='../Sobre/sobre.html'">Sobre</button>
+            <button class="btmenu" onclick="window.location.href='../Ajuda/ajuda.html'">Ajuda</button>
+        </div>
+    </div>
+    <br>
+    <form id="myForm">
+        <h2>Inserir Documentação</h2>
+        <label for="documento">Identificação do Documento:</label>
+        <input type="text" id="documento" name="documento" required>
+    
+        <label for="cliente">Nome do Cliente:</label>
+        <input type="text" id="cliente" name="cliente">
+    
+        <label for="data">Data de Recebimento:</label>
+        <input type="date" id="data" name="data" required><br><br>
+    
+        <label for="tipo">Débito ou Crédito:</label>
+        <select id="tipo" name="tipo">
+            <option value="debito">Débito</option>
+            <option value="credito">Crédito</option>
+        </select>
+    
+        <label for="valor">Valor:</label>
+        <input type="text" id="valor" name="valor" required>
+    
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+            <option value="pendente">Pendente</option>
+            <option value="andamento">Andamento</option>
+            <option value="concluido">Concluído</option>
+        </select>
+    
+        <label for="responsavel">Responsável:</label>
+        <input type="text" id="responsavel" name="responsavel" required>
+    
+        <label for="observacoes">Observações:</label>
+        <textarea id="observacoes" name="observacoes" rows="4"></textarea>
+    
+        <label for="prazo">Prazo para Entrega:</label>
+        <input type="date" id="prazo" name="prazo" required><br><br>
+    
+        <button id="enviar" type="submit">Enviar</button>
+
+    </form><br><br>
+    <script src="./inserir.js"></script>
+</body>
+</html>

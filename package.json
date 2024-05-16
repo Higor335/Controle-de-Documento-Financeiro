@@ -1,0 +1,23 @@
+{
+    "name": "controle-de-documentos-financeiro",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "electron .",
+        "start": "electron ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "electron": "^30.0.6"
+    },
+    "dependencies": {
+        "exceljs": "^4.4.0",
+        "fs": "^0.0.1-security",
+        "requirejs": "^2.3.6",
+        "xlsx": "^0.18.5",
+        "xlsx-populate": "^1.21.0"
+    }
+}
