@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">    
     <title>Controle Financeiro</title>
 </head>
 <body>
@@ -17,79 +17,36 @@
     </div>
     <div class="container">
         <div class="options">
-            <div>
-                <button id="listarTodos">Listar Todos</button>
-                <button id="listarDebito">Listar Débito</button>
-                <button id="listarCredito">Listar Crédito</button><br>
-                <button id="listarPendentes">Listar Pendentes</button>
-                <button id="listarAndamento">Listar em Andamento</button>
-                <button id="listarConcluidos">Listar Concluídos</button>
+            <div class="botoesListagem">
+                <button id="listarTodos" onclick="listarTodosMain()">Listar Todos</button>
+                <button id="listarDebito" onclick="listarDebitos()">Listar Débito</button>
+                <button id="listarCredito" onclick="listarCreditos()">Listar Crédito</button><br>
+                <button id="listarPendentes" onclick="listarPendentes()">Listar Pendentes</button>
+                <button id="listarAndamento" onclick="listarAndamentos()">Listar em Andamento</button>
+                <button id="listarConcluidos" onclick="listarConcluidos()">Listar Concluídos</button>
             </div>
 
             <div class="listagemData" style="background-color: rgb(226, 223, 223);"><br>
-                <label>LISTAR POR DATA</label><br><br>
-                <label for="">Data Inicial: </label><input type="date">
-                <label for="">Data Final : </label><input type="date"><br><br>
+                <label><strong>LISTAR POR DATA</strong></label><br><br>
+                <label for="">DATA INICIAL: </label><input type="date" class="inputData" id="dataInicial"><br>    
+                <label for="">DATA FINAL : </label><input type="date" class="inputData" id="dataFinal"><br>
+                <button onclick="listarPorData()" id="btData">Buscar</button><br>
             </div>            
 
         </div>        
     </div>
-    <fieldset class="content"><legend>LISTAGEM</legend>
-        <!-- Conteúdo listado será inserido aqui dinamicamente -->
-        <div class="item">
-            <button class="btVisualizar">
-                <img class="lupa" src="./imagens/search.png" alt="">
-                Visualizar
-            </button>
-            <label for="" class="informacao"><strong>Emprestimo consignado 1 - para:</strong> Manuel Gomes da Silva Junior - <strong>Data-Vencimento:</strong> 20/05/2024</label>
-            <button class="btExcluir">
-                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
-                
-            </button>
-        </div>
+    <fieldset class="content" id="lista"><legend>LISTAGEM</legend>
+        <!-- Conteúdo listado será inserido aqui dinamicamente -->        
 
+    </fieldset>    
+    <script src="./index.js"></script>
 
-        <div class="item">
-            <button class="btVisualizar">
-                <img class="lupa" src="./imagens/search.png" alt="">
-                Visualizar
-            </button>
-            <label for="" class="informacao"><strong>Emprestimo consignado 1 - para:</strong> Manuel Gomes da Silva Junior - <strong>Data-Vencimento:</strong> 20/05/2024</label>
-            <button class="btExcluir">
-                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
-                
-            </button>
-        </div>
-
-
-        <div class="item">
-            <button class="btVisualizar">
-                <img class="lupa" src="./imagens/search.png" alt="">
-                Visualizar
-            </button>
-            <label for="" class="informacao"><strong>Emprestimo consignado 1 - para:</strong> Manuel Gomes da Silva Junior - <strong>Data-Vencimento:</strong> 20/05/2024</label>
-            <button class="btExcluir">
-                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
-                
-            </button>
-        </div>
-
-
-
-        <div class="item">
-            <button class="btVisualizar">
-                <img class="lupa" src="./imagens/search.png" alt="">
-                Visualizar
-            </button>
-            <label for="" class="informacao"><strong>Emprestimo consignado 1 - para:</strong> Manuel Gomes da Silva Junior - <strong>Data-Vencimento:</strong> 20/05/2024</label>
-            <button class="btExcluir">
-                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
-                
-            </button>
-        </div>
-
-
-        
-    </fieldset>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            require('electron').ipcRenderer.send('dom-ready');
+        });
+    </script>
+    
 </body>
 </html>

@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const ExcelJS = require('exceljs');
+const XLSX = require('xlsx');
 
 let mainWindow;
 
@@ -14,6 +15,10 @@ app.on('ready', () => {
         minHeight: 600
     });
     mainWindow.loadFile(path.join(__dirname, './index.html'));
+
+    ipcMain.on('dom-ready', () => {
+        mainWindow.webContents.executeJavaScript('listarTodosMain();');
+    });
 });
 
 function salvarDadosNoExcel(documento) {  
@@ -54,3 +59,108 @@ function salvarDadosNoExcel(documento) {
 ipcMain.on('salvarDados', (event, documento) => {    
     salvarDadosNoExcel(documento);
 });
+
+//FUNÇÃO GENÉRICA PARA PEGAR TODOS OS DADOS DO EXCEL
+function coletarDadosExcel() {
+    const filePath = path.join(__dirname, 'meuarquivo.xlsx');
+    const workbook = XLSX.readFile(filePath);
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    return XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+}
+
+function jogaNoHTML(dados){
+
+    const data = dados;
+    
+    const html = data.map(row => {
+        const identificacao = row[0];
+        const nomeCliente = row[1];
+        const dataRecebimento = row[2];
+        let prazoEntrega = row[8];
+        const valor = row[4];
+
+        let [ano, mes, dia] = prazoEntrega.split('-');
+        prazoEntrega = `${dia}/${mes}/${ano}`;
+
+        return `
+        <div class="item">
+            <button class="btVisualizar">
+                <img class="lupa" src="./imagens/search.png" alt="">
+                Visualizar  
+            </button>
+            <label class="informacao"><strong>${identificacao} - para:</strong> ${nomeCliente} - <strong>Data-Vencimento:</strong> ${prazoEntrega}</label>
+            <button class="btExcluir">
+                <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
+            </button>
+        </div>`;
+    }).join('');
+
+    
+    document.getElementById('lista').innerHTML = html;  
+}
+
+// Função para listar todos os documentos
+function listarTodosMain() {    
+    const data = coletarDadosExcel();
+    const header = data.shift();
+    jogaNoHTML(data);
+}
+
+function listarDebitos(){
+    const data = coletarDadosExcel();
+    const header = data.shift();
+    const debitos = data.filter(row => row[3].toLowerCase() === "debito");
+    jogaNoHTML(debitos);
+}
+
+function listarCreditos(){
+    const data = coletarDadosExcel();
+    const header = data.shift();
+    const creditos = data.filter(row => row[3].toLowerCase() === "credito");
+    jogaNoHTML(creditos);
+}
+
+function listarPendentes(){
+    const data = coletarDadosExcel();
+    const header = data.shift();
+    const pendentes = data.filter(row => row[5].toLowerCase() === "pendente");
+    jogaNoHTML(pendentes);
+}
+
+function listarAndamentos(){
+    const data = coletarDadosExcel();
+    const header = data.shift();
+    const andamento = data.filter(row => row[5].toLowerCase() === "andamento");
+    jogaNoHTML(andamento);
+}
+
+function listarConcluidos(){
+    const data = coletarDadosExcel();
+    const header = data.shift();
+    const concluidos = data.filter(row => row[5].toLowerCase() === "concluido");
+    jogaNoHTML(concluidos);
+}
+
+function listarPorData() {
+    const data = coletarDadosExcel();
+    const header = data.shift();
+
+    let dataInicial = document.getElementById("dataInicial").value;
+    let dataFinal = document.getElementById("dataFinal").value;
+
+    if (dataInicial === "" || dataFinal === "") {
+        alert("Por favor, selecione as datas inicial e final.");
+        return;
+    }
+
+    const dataInicio = new Date(dataInicial);
+    const dataFim = new Date(dataFinal);
+
+    const listagemDatas = data.filter(row => {
+        const prazoEntrega = new Date(row[8]);
+        return prazoEntrega >= dataInicio && prazoEntrega <= dataFim;
+    });
+
+    jogaNoHTML(listagemDatas);
+}
