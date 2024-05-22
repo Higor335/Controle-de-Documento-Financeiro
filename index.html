@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">    
+    <link rel="stylesheet" href="style.css">  
+    <link rel="stylesheet" href="visualizar.css">  
     <title>Controle Financeiro</title>
 </head>
 <body>
@@ -48,5 +49,44 @@
         });
     </script>
     
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <button class="close" onclick="fecharModal()">&times;</button>
+          <h2>Editar Documento</h2>
+          <form id="formEditar">
+            <label for="idDoc">Identificação do Documento</label>
+            <input type="text" id="idDoc" name="idDoc">
+            
+            <label for="nomeCliente">Nome do Cliente</label>
+            <input type="text" id="nomeCliente" name="nomeCliente">
+            
+            <label for="dataRecebimento">Data de Recebimento</label>
+            <input type="date" id="dataRecebimento" name="dataRecebimento">
+            
+            <label for="tipo">Débito ou Crédito</label>
+            <input type="text" id="tipo" name="tipo">
+            
+            <label for="valor">Valor</label>
+            <input type="text" id="valor" name="valor">
+            
+            <label for="status">Status</label>
+            <input type="text" id="status" name="status">
+            
+            <label for="responsavel">Responsável</label>
+            <input type="text" id="responsavel" name="responsavel">
+            
+            <label for="observacoes">Observações</label>
+            <input type="text" id="observacoes" name="observacoes">
+            
+            <label for="prazo">Prazo para Entrega</label>
+            <input type="date" id="prazo" name="prazo">
+            
+            <button type="button" onclick="fecharModal()" id="btCancelar">Cancelar</button>
+            <button type="button" onclick="salvarAlteracoes()" id="btModificarDados">Modificar Dados</button>            
+          </form>
+        </div>
+      </div> 
+
+      <script src="./visualizar.js"></script>
 </body>
 </html>

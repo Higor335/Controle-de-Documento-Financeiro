@@ -69,11 +69,8 @@ function coletarDadosExcel() {
     return XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 }
 
-function jogaNoHTML(dados){
-
-    const data = dados;
-    
-    const html = data.map(row => {
+function jogaNoHTML(dados) {
+    const html = dados.map((row, index) => {
         const identificacao = row[0];
         const nomeCliente = row[1];
         const dataRecebimento = row[2];
@@ -85,19 +82,18 @@ function jogaNoHTML(dados){
 
         return `
         <div class="item">
-            <button class="btVisualizar">
+            <button class="btVisualizar" onclick="abrirModalEditar(${index})">
                 <img class="lupa" src="./imagens/search.png" alt="">
                 Visualizar  
             </button>
             <label class="informacao"><strong>${identificacao} - para:</strong> ${nomeCliente} - <strong>Data-Vencimento:</strong> ${prazoEntrega}</label>
-            <button class="btExcluir">
+            <button class="btExcluir" onclick="confirmarExclusaoDocumento(${index}, '${identificacao}')">
                 <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
             </button>
         </div>`;
     }).join('');
 
-    
-    document.getElementById('lista').innerHTML = html;  
+    document.getElementById('lista').innerHTML = html;
 }
 
 // Função para listar todos os documentos
@@ -164,3 +160,35 @@ function listarPorData() {
 
     jogaNoHTML(listagemDatas);
 }
+
+
+function confirmarExclusaoDocumento(index, nomeDocumento) {
+    const confirmacao = confirm(`Tem certeza que deseja excluir o documento "${nomeDocumento}"?`);
+
+    if (confirmacao) {
+        excluirDado(index);
+    }
+}
+
+function excluirDado(index) {
+    const filePath = path.join(__dirname, 'meuarquivo.xlsx');
+    const workbook = new ExcelJS.Workbook();
+
+    workbook.xlsx.readFile(filePath)
+        .then(() => {
+            const worksheet = workbook.getWorksheet(1);
+            worksheet.spliceRows(index + 2, 1); // Adiciona 2 ao índice porque as linhas do Excel começam em 1 e há um cabeçalho
+            return workbook.xlsx.writeFile(filePath);
+        })
+        .then(() => {
+            alert('Documento excluído com sucesso!');
+            listarTodosMain();
+        })
+        .catch((error) => {
+            mainWindow.webContents.executeJavaScript(`
+                alert('Ocorreu um erro ao excluir o documento.');
+            `);
+        });
+}
+
+
