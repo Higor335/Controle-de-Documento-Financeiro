@@ -1,7 +1,5 @@
 document.getElementById('myForm').addEventListener('submit', (event) => {
     
-
-
     //COLETA DOS DADOS
     let idDoc = document.getElementById("documento").value;
     let nomeCliente = document.getElementById("cliente").value;
@@ -13,9 +11,11 @@ document.getElementById('myForm').addEventListener('submit', (event) => {
     let observacoes = document.getElementById("observacoes").value;
     let prazo = document.getElementById("prazo").value;
 
+    const { v4: uuidv4 } = require('uuid');
+    let IDaLeatorio = uuidv4();
 
     //cria objeto documento com os valores
-    let documento = {
+    let documento = {        
         "Identificação do Documento": idDoc,
         "Nome do Cliente": nomeCliente,
         "Data de Recebimento": dataRecebimento,
@@ -24,7 +24,8 @@ document.getElementById('myForm').addEventListener('submit', (event) => {
         "Status": status,
         "Responsável": responsavel,
         "Observações": observacoes,
-        "Prazo para Entrega": prazo
+        "Prazo para Entrega": prazo,
+        "ID": IDaLeatorio
     };
     
     

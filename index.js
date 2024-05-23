@@ -37,7 +37,8 @@ function salvarDadosNoExcel(documento) {
                 documento["Status"],
                 documento["Responsável"],
                 documento["Observações"],
-                documento["Prazo para Entrega"]
+                documento["Prazo para Entrega"],
+                documento["ID"]
             ]);
 
             return workbook.xlsx.writeFile(filePath);
@@ -70,24 +71,25 @@ function coletarDadosExcel() {
 }
 
 function jogaNoHTML(dados) {
-    const html = dados.map((row, index) => {
+    const html = dados.map((row) => {
         const identificacao = row[0];
         const nomeCliente = row[1];
         const dataRecebimento = row[2];
         let prazoEntrega = row[8];
         const valor = row[4];
+        const id = row[9];
 
         let [ano, mes, dia] = prazoEntrega.split('-');
         prazoEntrega = `${dia}/${mes}/${ano}`;
 
         return `
         <div class="item">
-            <button class="btVisualizar" onclick="abrirModalEditar(${index})">
+            <button class="btVisualizar" onclick="abrirModalEditar('${id}')">
                 <img class="lupa" src="./imagens/search.png" alt="">
                 Visualizar  
             </button>
             <label class="informacao"><strong>${identificacao} - para:</strong> ${nomeCliente} - <strong>Data-Vencimento:</strong> ${prazoEntrega}</label>
-            <button class="btExcluir" onclick="confirmarExclusaoDocumento(${index}, '${identificacao}')">
+            <button class="btExcluir" onclick="confirmarExclusaoDocumento('${id}', '${identificacao}')">
                 <img class="lixeira" src="./imagens/recycle-bin.png" alt="">    
             </button>
         </div>`;
@@ -170,14 +172,25 @@ function confirmarExclusaoDocumento(index, nomeDocumento) {
     }
 }
 
-function excluirDado(index) {
+function excluirDado(id) {    
     const filePath = path.join(__dirname, 'meuarquivo.xlsx');
     const workbook = new ExcelJS.Workbook();
 
     workbook.xlsx.readFile(filePath)
         .then(() => {
             const worksheet = workbook.getWorksheet(1);
-            worksheet.spliceRows(index + 2, 1); // Adiciona 2 ao índice porque as linhas do Excel começam em 1 e há um cabeçalho
+            let found = false;
+            worksheet.eachRow((row, rowNumber) => {
+                const cellValue = row.getCell(10).value; // Obtém o valor da coluna de ID (coluna 9)                
+                if (cellValue && String(cellValue).trim() === String(id).trim()) { // Verifica se o valor da célula corresponde ao ID fornecido
+                    worksheet.spliceRows(rowNumber, 1);
+                    found = true;
+                    return false; // Termina o loop uma vez que o documento é encontrado e excluído
+                }
+            });
+            if (!found) {
+                throw new Error('Documento não encontrado.');
+            }
             return workbook.xlsx.writeFile(filePath);
         })
         .then(() => {
@@ -185,10 +198,6 @@ function excluirDado(index) {
             listarTodosMain();
         })
         .catch((error) => {
-            mainWindow.webContents.executeJavaScript(`
-                alert('Ocorreu um erro ao excluir o documento.');
-            `);
+            alert("FECHE O DOCUMENTO WORD PARA EFETUAR A EXCLUSÃO", error)
         });
 }
-
-
