@@ -24,6 +24,7 @@ label {
 
 /* Estilo dos campos de entrada */
 input[type="text"],
+input[type="number"],
 select,
 textarea {
     width: 100%;

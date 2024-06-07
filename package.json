@@ -5,13 +5,15 @@
     "main": "index.js",
     "scripts": {
         "dev": "electron .",
-        "start": "electron ."
+        "start": "electron .",
+        "package": "electron-packager . ControleFinanceiro --platform=win32 --arch=x64 --out=dist --overwrite"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "electron": "^30.0.6"
+        "electron": "^30.0.6",
+        "electron-packager": "^17.1.2"
     },
     "dependencies": {
         "exceljs": "^4.4.0",

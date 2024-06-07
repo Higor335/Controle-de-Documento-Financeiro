@@ -44,3 +44,12 @@ li {
 .button:hover {
     background-color: #0056b3;
 }
+
+.vermelho{
+    font-weight: bolder;
+    color: red;
+}
+.verde{
+    font-weight: bolder;
+    color: green;
+}

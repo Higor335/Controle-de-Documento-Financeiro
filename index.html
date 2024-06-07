@@ -32,9 +32,33 @@
                 <label for="">DATA INICIAL: </label><input type="date" class="inputData" id="dataInicial"><br>    
                 <label for="">DATA FINAL : </label><input type="date" class="inputData" id="dataFinal"><br>
                 <button onclick="listarPorData()" id="btData">Buscar</button><br>
-            </div>            
+            </div>
+            
+        </div><br>
+        <div class="menuInferior">
 
+            <div class="buscaNome">
+                <label for="Nome">Busca Nome: </label>
+                <input type="text" id="Nome" placeholder="Nome do Cliente">
+                <br>
+                <label for="statusBusca">Status: </label>
+                <select id="statusBusca" name="status">
+                    <option value="pendente">Pendente</option>
+                    <option value="andamento">Andamento</option>
+                    <option value="concluido">Concluído</option>
+                </select>
+                
+                <button onclick="buscarPorNome()" id="BtBuscaNome">Buscar</button>                
+            </div>
+
+            <div class="resultadoValor">
+                <label for="valortotal">Valor Total: R$ </label>
+                <label for="valor" id="SomatorioTotal"></label>
+            </div>
+            
         </div>        
+
+
     </div>
     <fieldset class="content" id="lista"><legend>LISTAGEM</legend>
         <!-- Conteúdo listado será inserido aqui dinamicamente -->        
@@ -64,13 +88,20 @@
             <input type="date" id="dataRecebimento" name="dataRecebimento">
             
             <label for="tipo">Débito ou Crédito</label>
-            <input type="text" id="tipo" name="tipo">
+            <select id="tipo" name="tipo">
+                <option value="debito">Débito</option>
+                <option value="credito">Crédito</option>
+            </select>
             
             <label for="valor">Valor</label>
-            <input type="text" id="valor" name="valor">
+            <input type="number" id="valor" name="valor" step="any">
             
             <label for="status">Status</label>
-            <input type="text" id="status" name="status">
+            <select id="status" name="status">
+                <option value="pendente">Pendente</option>
+                <option value="andamento">Andamento</option>
+                <option value="concluido">Concluído</option>
+            </select>
             
             <label for="responsavel">Responsável</label>
             <input type="text" id="responsavel" name="responsavel">
@@ -82,7 +113,7 @@
             <input type="date" id="prazo" name="prazo">
             
             <button type="button" onclick="fecharModal()" id="btCancelar">Cancelar</button>
-            <button type="button" onclick="salvarAlteracoes()" id="btModificarDados">Modificar Dados</button>            
+            <button type="button" onclick="salvarAlteracoes()" id="btModificarDados">Salvar Alteração</button>            
           </form>
         </div>
       </div> 

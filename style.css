@@ -67,7 +67,7 @@ button:hover{
 .container {
     margin-left: 10%;
     margin-top: 2%;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;    
     width: 85%;
@@ -93,6 +93,7 @@ button:hover{
     border-radius: 10px;
     box-shadow:inset 1.5px 1px 1.5px 1px rgb(133, 132, 132);    
     width: 50%;
+    max-width: 300px;
     font-size: 14px;
     padding-inline: 10px;    
 }
@@ -125,6 +126,35 @@ button:hover{
     background-color: #4D4D4D; /* Fundo mais escuro no hover */
     color: #FFFFFF; /* Texto branco no hover */
     border-color: #2C2C2C; /* Bordas mais escuras no hover */
+}
+
+.menuInferior{    
+    display: flex;    
+    justify-content: space-between; /* Espaça os filhos ao longo do eixo principal */
+    align-items: center;     
+    height: 30px;
+    margin-left: -20px;
+    width: 90%;
+}
+
+#Nome{
+    padding: 5px;
+    border-radius: 7px;
+    border: 2px solid rgb(102, 101, 101);
+    outline: 0;
+}
+
+#BtBuscaNome{
+    padding: 6px;
+    padding-inline: 10px;
+}
+
+.resultadoValor{
+    background-color: lightgray;
+    padding: 15px;
+    border-radius: 14px;
+    justify-self: end;
+    font-weight: bold;
 }
 
 

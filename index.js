@@ -70,7 +70,13 @@ function coletarDadosExcel() {
     return XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 }
 
+
+
 function jogaNoHTML(dados) {
+    let somaValor = 0;
+    const elemento = document.getElementById("SomatorioTotal");
+    elemento.textContent = 0;
+
     const html = dados.map((row) => {
         const identificacao = row[0];
         const nomeCliente = row[1];
@@ -81,6 +87,11 @@ function jogaNoHTML(dados) {
 
         let [ano, mes, dia] = prazoEntrega.split('-');
         prazoEntrega = `${dia}/${mes}/${ano}`;
+        
+
+        somaValor += parseFloat(valor);
+        
+        elemento.textContent = somaValor;
 
         return `
         <div class="item">
@@ -102,6 +113,7 @@ function jogaNoHTML(dados) {
 function listarTodosMain() {    
     const data = coletarDadosExcel();
     const header = data.shift();
+    somaValor=0;
     jogaNoHTML(data);
 }
 
@@ -109,6 +121,7 @@ function listarDebitos(){
     const data = coletarDadosExcel();
     const header = data.shift();
     const debitos = data.filter(row => row[3].toLowerCase() === "debito");
+    somaValor=0;
     jogaNoHTML(debitos);
 }
 
@@ -116,6 +129,7 @@ function listarCreditos(){
     const data = coletarDadosExcel();
     const header = data.shift();
     const creditos = data.filter(row => row[3].toLowerCase() === "credito");
+    somaValor=0;
     jogaNoHTML(creditos);
 }
 
@@ -123,6 +137,7 @@ function listarPendentes(){
     const data = coletarDadosExcel();
     const header = data.shift();
     const pendentes = data.filter(row => row[5].toLowerCase() === "pendente");
+    somaValor=0;
     jogaNoHTML(pendentes);
 }
 
@@ -130,6 +145,7 @@ function listarAndamentos(){
     const data = coletarDadosExcel();
     const header = data.shift();
     const andamento = data.filter(row => row[5].toLowerCase() === "andamento");
+    somaValor=0;
     jogaNoHTML(andamento);
 }
 
@@ -137,6 +153,7 @@ function listarConcluidos(){
     const data = coletarDadosExcel();
     const header = data.shift();
     const concluidos = data.filter(row => row[5].toLowerCase() === "concluido");
+    somaValor=0;
     jogaNoHTML(concluidos);
 }
 
@@ -160,6 +177,7 @@ function listarPorData() {
         return prazoEntrega >= dataInicio && prazoEntrega <= dataFim;
     });
 
+    somaValor=0;
     jogaNoHTML(listagemDatas);
 }
 
@@ -200,4 +218,23 @@ function excluirDado(id) {
         .catch((error) => {
             alert("FECHE O DOCUMENTO WORD PARA EFETUAR A EXCLUSÃO", error)
         });
+}
+
+function buscarPorNome(){
+
+    const data = coletarDadosExcel();
+    const header = data.shift();
+
+    const nome = document.getElementById("Nome").value.toLowerCase();
+    const status = document.getElementById("status").value;
+
+    if(!nome){
+        alert("Por Favor Insira um Nome!");
+        return;
+    }
+
+const listagemNome = data.filter(row => row[1].toLowerCase().includes(nome)/*, row[5].includes(statusBusca)*/);
+
+    somaValor=0;
+    jogaNoHTML(listagemNome);
 }

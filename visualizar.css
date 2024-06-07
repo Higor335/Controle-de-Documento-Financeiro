@@ -50,12 +50,15 @@ h2{
 }
 
 .modal-content form input[type="text"],
+.modal-content form input[type="number"],
+#status,
 .modal-content form input[type="date"]{
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
   box-sizing: border-box; /* Para incluir padding na largura total */
 }
+
 
 
 #btCancelar{
