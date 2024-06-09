@@ -222,18 +222,19 @@ function excluirDado(id) {
 
 function buscarPorNome(){
 
-    const data = coletarDadosExcel();
-    const header = data.shift();
-
-    const nome = document.getElementById("Nome").value.toLowerCase();
-    const status = document.getElementById("status").value;
-
-    if(!nome){
-        alert("Por Favor Insira um Nome!");
+   if(!(document.getElementById("Nome").value.toLowerCase())){
+        console.log("Sem Nome")
         return;
-    }
+   }
 
-const listagemNome = data.filter(row => row[1].toLowerCase().includes(nome)/*, row[5].includes(statusBusca)*/);
+    let data = coletarDadosExcel();
+    let header = data.shift();
+
+    let nome = document.getElementById("Nome").value.toLowerCase();
+    let statusBusca = document.getElementById("statusBusca").value;
+
+    console.log(nome,statusBusca)
+    const listagemNome = data.filter(row => row[1].toLowerCase().includes(nome) && row[5] == statusBusca);
 
     somaValor=0;
     jogaNoHTML(listagemNome);

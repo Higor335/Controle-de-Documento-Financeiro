@@ -49,6 +49,10 @@ h2{
   display: block;
 }
 
+#labelStatusBusca{
+  margin-left: 47px;
+}
+
 .modal-content form input[type="text"],
 .modal-content form input[type="number"],
 #status,
@@ -58,7 +62,6 @@ h2{
   margin-bottom: 20px;
   box-sizing: border-box; /* Para incluir padding na largura total */
 }
-
 
 
 #btCancelar{
