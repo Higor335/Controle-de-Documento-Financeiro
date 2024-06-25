@@ -2,8 +2,14 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const ExcelJS = require('exceljs');
 const XLSX = require('xlsx');
+const puppeteer = require('puppeteer');
+const os = require('os');
+
+const fs = require('fs').promises;
 
 let mainWindow;
+
+let DadosFiltradosAtuais = [];
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
@@ -19,7 +25,96 @@ app.on('ready', () => {
     ipcMain.on('dom-ready', () => {
         mainWindow.webContents.executeJavaScript('listarTodosMain();');
     });
+
+
+    ipcMain.on('generate-pdf', async (event) => {
+        try {
+            const pdfPath = await generatePDF();
+            event.reply('pdf-generated', `PDF salvo em: ${pdfPath}`);
+        } catch (error) {
+            event.reply('pdf-generated', `Erro ao salvar PDF: ${error.message}`);
+        }
+    });
 });
+
+
+//TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE TESTE
+
+
+async function generatePDF() {
+    const htmlContent = `
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; }
+                table { width: 100%; border-collapse: collapse; }
+                th, td { border: 1px solid #ddd; padding: 8px; }
+                th { background-color: #f2f2f2; }
+            </style>
+        </head>
+        <body>
+            <h2>Relatório de Documentos</h2>
+            <table>
+                <tr>
+                    <th>Item</th>
+                    <th>Cliente</th>
+                    <th>Data de Recebimento</th>
+                    <th>Débito ou Crédito</th>
+                    <th>Valor</th>
+                    <th>Observações</th>
+                    <th>Entrega</th>
+                </tr>
+                ${DadosFiltradosAtuais.map((row) => {
+                    let prazoEntrega = row[8];
+                    let dataRecebimento = row[2];
+
+                    let [ano, mes, dia] = prazoEntrega.split('-');
+                    prazoEntrega = `${dia}/${mes}/${ano}`;
+
+                    [ano, mes, dia] = dataRecebimento.split('-');
+                    dataRecebimento = `${dia}/${mes}/${ano}`;
+
+                    return `
+                <tr>
+                    <td>${row[0]}</td>
+                    <td>${row[1]}</td>
+                    <td>${dataRecebimento}</td>
+                    <td>${row[3]}</td>
+                    <td>${row[4]}</td>
+                    <td>${row[7]}</td>
+                    <td>${prazoEntrega}</td>
+                </tr>`}).join('')}
+            </table>
+        </body>
+        </html>
+    `;
+
+    const browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        timeout: 60000
+    });
+
+    const page = await browser.newPage();
+    await page.setContent(htmlContent);
+
+    const pdfBuffer = await page.pdf({ format: 'A4' });
+
+    await browser.close();
+
+    // Define o caminho para o desktop
+    const desktopPath = path.join(os.homedir(), 'Desktop');
+    const filePath = path.join(desktopPath, 'Relatorio De Valores.pdf');
+
+    try {
+        await fs.writeFile(filePath, pdfBuffer);
+        return filePath;
+    } catch (error) {
+        throw new Error(`Erro ao salvar PDF: ${error.message}`);
+    }
+}
+
+
 
 function salvarDadosNoExcel(documento) {  
     const filePath = path.join(__dirname, 'meuarquivo.xlsx');
@@ -107,6 +202,9 @@ function jogaNoHTML(dados) {
     }).join('');
 
     document.getElementById('lista').innerHTML = html;
+
+    DadosFiltradosAtuais = dados;
+    return dados; // Retorna os dados processados para uso posterior
 }
 
 // Função para listar todos os documentos
@@ -239,3 +337,4 @@ function buscarPorNome(){
     somaValor=0;
     jogaNoHTML(listagemNome);
 }
+
