@@ -42,6 +42,7 @@ app.on('ready', () => {
 
 
 async function generatePDF() {
+    let nomePDF = "Relatorio de valores " + DadosFiltradosAtuais[0][1] + ".pdf";
     const htmlContent = `
         <html>
             <head>
@@ -58,28 +59,35 @@ async function generatePDF() {
                     }
                     th, td { 
                         border: 1px solid #ddd; 
-                        padding: 8px; 
+                        padding: 9px; 
                         text-align: center; /* Centralizar o conteúdo das células */
                     }
                     th { 
                         background-color: #f2f2f2; 
                     }
-                    h2 { 
-                        padding: 40px;
+                    h2 {                         
+                        padding: 80px;
+                        margin-top:10px;
                         font-weight: bolder;
+                        font-size: 30px;
                     }            
                     #recebimento { width: 20%; }
                     #item { width: 40%; }
                     #entrega { width: 20%; }
                     #valor { width: 20%; }
+
+                    .DadosBancarios {                                                
+                        padding: 15px;
+                        width: 100%; /* Adicionar largura */
+                    }
                 </style>
             </head>
             <body>
-                <h2>Relatório de Serviços: ${DadosFiltradosAtuais[0][1]}</h2>
+                <h2>Relatório de Serviços: ${DadosFiltradosAtuais[0][1]}</h2>                
                 <table>
                     <tr>
                         <th id="recebimento">Recebido</th>
-                        <th id="item">Item</th>                                                                                           
+                        <th id="serviço">Item</th>                                                                                           
                         <th>Entrega</th>
                         <th>Valor</th>  
                     </tr>
@@ -115,7 +123,13 @@ async function generatePDF() {
 
                         return rows + totalRow;
                     })()}
-                </table>
+                    <tr>
+                        <td colspan="4" class="DadosBancarios">PIX: 22.466.644/0001-02 ESCRITÓRIO RURAL SAMANIEGO</td>                        
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="DadosBancarios">DADOS BANCÁRIOS: BANCO: 748 SICREDI AGÊNCIA: 0911 CONTA CORRENTE: 87368-6</td>
+                    </tr>
+                </table>                
             </body>
         </html>        
     `;
@@ -135,7 +149,7 @@ async function generatePDF() {
 
     // Define o caminho para o desktop
     const desktopPath = path.join(os.homedir(), 'Desktop');
-    const filePath = path.join(desktopPath, 'Relatorio De Valores.pdf');
+    const filePath = path.join(desktopPath, nomePDF);
 
     try {
         await fs.writeFile(filePath, pdfBuffer);
