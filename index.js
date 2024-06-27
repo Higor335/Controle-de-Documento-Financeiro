@@ -44,49 +44,80 @@ app.on('ready', () => {
 async function generatePDF() {
     const htmlContent = `
         <html>
-        <head>
-            <style>
-                body { font-family: Arial, sans-serif; }
-                table { width: 100%; border-collapse: collapse; }
-                th, td { border: 1px solid #ddd; padding: 8px; }
-                th { background-color: #f2f2f2; }
-            </style>
-        </head>
-        <body>
-            <h2>Relatório de Documentos</h2>
-            <table>
-                <tr>
-                    <th>Item</th>
-                    <th>Cliente</th>
-                    <th>Data de Recebimento</th>
-                    <th>Débito ou Crédito</th>
-                    <th>Valor</th>
-                    <th>Observações</th>
-                    <th>Entrega</th>
-                </tr>
-                ${DadosFiltradosAtuais.map((row) => {
-                    let prazoEntrega = row[8];
-                    let dataRecebimento = row[2];
+            <head>
+                <style>
+                    body { 
+                        font-family: Arial, sans-serif; 
+                        display: block;
+                        text-align: center; /* Centralizar o conteúdo do corpo */
+                    }
+                    table {
+                        margin: 0 auto; /* Centralizar a tabela */
+                        width: 90%; 
+                        border-collapse: collapse; 
+                    }
+                    th, td { 
+                        border: 1px solid #ddd; 
+                        padding: 8px; 
+                        text-align: center; /* Centralizar o conteúdo das células */
+                    }
+                    th { 
+                        background-color: #f2f2f2; 
+                    }
+                    h2 { 
+                        padding: 40px;
+                        font-weight: bolder;
+                    }            
+                    #recebimento { width: 20%; }
+                    #item { width: 40%; }
+                    #entrega { width: 20%; }
+                    #valor { width: 20%; }
+                </style>
+            </head>
+            <body>
+                <h2>Relatório de Serviços: ${DadosFiltradosAtuais[0][1]}</h2>
+                <table>
+                    <tr>
+                        <th id="recebimento">Recebido</th>
+                        <th id="item">Item</th>                                                                                           
+                        <th>Entrega</th>
+                        <th>Valor</th>  
+                    </tr>
+                    ${(() => {
+                        let total = 0;
+                        const rows = DadosFiltradosAtuais.map((row) => {
+                            let prazoEntrega = row[8];
+                            let dataRecebimento = row[2];
 
-                    let [ano, mes, dia] = prazoEntrega.split('-');
-                    prazoEntrega = `${dia}/${mes}/${ano}`;
+                            let [ano, mes, dia] = prazoEntrega.split('-');
+                            prazoEntrega = `${dia}/${mes}/${ano}`;
 
-                    [ano, mes, dia] = dataRecebimento.split('-');
-                    dataRecebimento = `${dia}/${mes}/${ano}`;
+                            [ano, mes, dia] = dataRecebimento.split('-');
+                            dataRecebimento = `${dia}/${mes}/${ano}`;
 
-                    return `
-                <tr>
-                    <td>${row[0]}</td>
-                    <td>${row[1]}</td>
-                    <td>${dataRecebimento}</td>
-                    <td>${row[3]}</td>
-                    <td>${row[4]}</td>
-                    <td>${row[7]}</td>
-                    <td>${prazoEntrega}</td>
-                </tr>`}).join('')}
-            </table>
-        </body>
-        </html>
+                            total += parseFloat(row[4]);
+
+                            return `
+                        <tr>
+                            <td>${dataRecebimento}</td>
+                            <td>${row[0]}</td>                                                            
+                            <td>${prazoEntrega}</td>
+                            <td>R$ ${row[4]}</td>
+                        </tr>`;
+                        }).join('');
+
+                        // Adiciona a linha de total
+                        const totalRow = `
+                        <tr>
+                            <td colspan="3"><strong>TOTAL</strong></td>
+                            <td><strong>R$ ${total.toFixed(2)}</strong></td>
+                        </tr>`;
+
+                        return rows + totalRow;
+                    })()}
+                </table>
+            </body>
+        </html>        
     `;
 
     const browser = await puppeteer.launch({
