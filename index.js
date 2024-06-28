@@ -260,10 +260,34 @@ function listarTodosMain() {
     jogaNoHTML(data);
 }
 
+function verificarDatas(row, dataInicio, dataFim) {
+    if (!dataInicio || !dataFim) return true;
+    const prazoEntrega = new Date(row[8]);
+    return prazoEntrega >= dataInicio && prazoEntrega <= dataFim;
+}
+
+
+
+function obterDatas() {
+    let dataInicial = document.getElementById("dataInicial").value;
+    let dataFinal = document.getElementById("dataFinal").value;
+
+    if (dataInicial === "" || dataFinal === "") {
+        return [null, null];
+    }
+
+    const dataInicio = new Date(dataInicial);
+    const dataFim = new Date(dataFinal);
+
+    return [dataInicio, dataFim];
+}
+
+
 function listarDebitos(){
     const data = coletarDadosExcel();
     const header = data.shift();
-    const debitos = data.filter(row => row[3].toLowerCase() === "debito");
+    const [dataInicio, dataFim] = obterDatas();
+    const debitos = data.filter(row => row[3].toLowerCase() === "debito" && verificarDatas(row, dataInicio, dataFim));
     somaValor=0;
     jogaNoHTML(debitos);
 }
@@ -271,7 +295,8 @@ function listarDebitos(){
 function listarCreditos(){
     const data = coletarDadosExcel();
     const header = data.shift();
-    const creditos = data.filter(row => row[3].toLowerCase() === "credito");
+    const [dataInicio, dataFim] = obterDatas();
+    const creditos = data.filter(row => row[3].toLowerCase() === "credito" && verificarDatas(row, dataInicio, dataFim));
     somaValor=0;
     jogaNoHTML(creditos);
 }
@@ -279,7 +304,8 @@ function listarCreditos(){
 function listarPendentes(){
     const data = coletarDadosExcel();
     const header = data.shift();
-    const pendentes = data.filter(row => row[5].toLowerCase() === "pendente");
+    const [dataInicio, dataFim] = obterDatas();
+    const pendentes = data.filter(row => row[5].toLowerCase() === "pendente" && verificarDatas(row, dataInicio, dataFim));
     somaValor=0;
     jogaNoHTML(pendentes);
 }
@@ -287,7 +313,8 @@ function listarPendentes(){
 function listarAndamentos(){
     const data = coletarDadosExcel();
     const header = data.shift();
-    const andamento = data.filter(row => row[5].toLowerCase() === "andamento");
+    const [dataInicio, dataFim] = obterDatas();
+    const andamentos = data.filter(row => row[5].toLowerCase() === "andamento" && verificarDatas(row, dataInicio, dataFim));
     somaValor=0;
     jogaNoHTML(andamento);
 }
@@ -295,7 +322,8 @@ function listarAndamentos(){
 function listarConcluidos(){
     const data = coletarDadosExcel();
     const header = data.shift();
-    const concluidos = data.filter(row => row[5].toLowerCase() === "concluido");
+    const [dataInicio, dataFim] = obterDatas();
+    const concluidos = data.filter(row => row[5].toLowerCase() === "concluido" && verificarDatas(row, dataInicio, dataFim));
     somaValor=0;
     jogaNoHTML(concluidos);
 }
