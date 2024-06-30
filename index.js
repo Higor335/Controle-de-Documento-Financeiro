@@ -401,11 +401,12 @@ function buscarPorNome(){
     let data = coletarDadosExcel();
     let header = data.shift();
 
+    const [dataInicio, dataFim] = obterDatas();
+
     let nome = document.getElementById("Nome").value.toLowerCase();
     let statusBusca = document.getElementById("statusBusca").value;
 
-    console.log(nome,statusBusca)
-    const listagemNome = data.filter(row => row[1].toLowerCase().includes(nome) && row[5] == statusBusca);
+    const listagemNome = data.filter(row => row[1].toLowerCase().includes(nome) && row[5] == statusBusca && verificarDatas(row, dataInicio, dataFim));
 
     somaValor=0;
     jogaNoHTML(listagemNome);
