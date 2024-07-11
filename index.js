@@ -140,8 +140,9 @@ async function generatePDF() {
                         <td colspan="4" class="DadosBancarios">DADOS BANCÁRIOS: BANCO: 748 SICREDI AGÊNCIA: 0911 CONTA CORRENTE: 87368-6</td>
                     </tr>
                 </table>
-                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                <p>Data de emissão do documento: ${dataFormatada}</p>
+                
+                <p style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: lightgrey; padding: 10px;">Data de emissão do documento: ${dataFormatada}</p>
+
             </body>
         </html>        
     `;
