@@ -43,6 +43,16 @@ app.on('ready', () => {
 
 async function generatePDF() {
     let nomePDF = "Relatorio de valores " + DadosFiltradosAtuais[0][1] + ".pdf";
+
+    //Pegar data do computador
+        var dataAtual = new Date();
+        var dia = dataAtual.getDate();
+        var mes = dataAtual.getMonth() + 1; // Os meses começam do 0
+        var ano = dataAtual.getFullYear();
+
+        // Formatar a data no formato DD/MM/YYYY
+        var dataFormatada = (dia < 10 ? '0' + dia : dia) + '/' + (mes < 10 ? '0' + mes : mes) + '/' + ano;
+
     const htmlContent = `
         <html>
             <head>
@@ -129,7 +139,9 @@ async function generatePDF() {
                     <tr>
                         <td colspan="4" class="DadosBancarios">DADOS BANCÁRIOS: BANCO: 748 SICREDI AGÊNCIA: 0911 CONTA CORRENTE: 87368-6</td>
                     </tr>
-                </table>                
+                </table>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <p>Data de emissão do documento: ${dataFormatada}</p>
             </body>
         </html>        
     `;
