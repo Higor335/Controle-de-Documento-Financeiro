@@ -5,6 +5,7 @@ const XLSX = require('xlsx');
 const puppeteer = require('puppeteer');
 const os = require('os');
 
+
 const fs = require('fs').promises;
 
 let mainWindow;
@@ -44,14 +45,23 @@ app.on('ready', () => {
 async function generatePDF() {
     let nomePDF = "Relatorio de valores " + DadosFiltradosAtuais[0][1] + ".pdf";
 
-    //Pegar data do computador
-        var dataAtual = new Date();
-        var dia = dataAtual.getDate();
-        var mes = dataAtual.getMonth() + 1; // Os meses começam do 0
-        var ano = dataAtual.getFullYear();
+    // Pegar data do computador
+    var dataAtual = new Date();
+    var dia = dataAtual.getDate();
+    var mes = dataAtual.getMonth() + 1; // Os meses começam do 0
+    var ano = dataAtual.getFullYear();
 
-        // Formatar a data no formato DD/MM/YYYY
-        var dataFormatada = (dia < 10 ? '0' + dia : dia) + '/' + (mes < 10 ? '0' + mes : mes) + '/' + ano;
+    // Formatar a data no formato DD/MM/YYYY
+    var dataFormatada = (dia < 10 ? '0' + dia : dia) + '/' + (mes < 10 ? '0' + mes : mes) + '/' + ano;
+
+    // Ordenar os dados por dataRecebimento
+    DadosFiltradosAtuais.sort((a, b) => {
+        const [anoA, mesA, diaA] = a[2].split('-').map(Number);
+        const [anoB, mesB, diaB] = b[2].split('-').map(Number);
+        const dataA = new Date(anoA, mesA - 1, diaA);
+        const dataB = new Date(anoB, mesB - 1, diaB);
+        return dataA - dataB;
+    });
 
     const htmlContent = `
         <html>
@@ -171,6 +181,7 @@ async function generatePDF() {
         throw new Error(`Erro ao salvar PDF: ${error.message}`);
     }
 }
+
 
 
 
